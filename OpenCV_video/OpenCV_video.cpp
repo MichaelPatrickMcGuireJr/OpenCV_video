@@ -1,50 +1,66 @@
-// OpenCV_camVid1.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*
+ *   Author:  Michael McGuire
+ *  Purpose:  using OpenCV to capture a video stream and display it on screen
+ * Language:  c++
+ */
 
-
-#include "opencv2/opencv.hpp"
+// headers
 #include <iostream>
+#include "opencv2/opencv.hpp"
 
+// enabling the code to implicitly call the std and cv namespaces
 using namespace std;
 using namespace cv;
 
 int main() {
 
-	// Create a VideoCapture object and open the input file
-	// If the input is the web camera, pass 0 instead of the video file name
+	// creating video capture object from default video device 0
 	VideoCapture cap(0);
 
 	// Check if camera opened successfully
-	if (!cap.isOpened()) {
+	if (!cap.isOpened()) 
+	{
+		// print error message if issue openning video stream
 		cout << "Error opening video stream or file" << endl;
+		// end main
 		return -1;
 	}
 
-	while (1) {
-
+	
+	while (1) 
+	{
+		// creating a from object from OpenCV
 		Mat frame;
-		// Capture frame-by-frame
+		// place image from capture on frame
 		cap >> frame;
 
 		// If the frame is empty, break immediately
 		if (frame.empty())
+		{
 			break;
+		}
 
-		// Display the resulting frame
+		// Display window frame on conole with OpenCV imshow method
 		imshow("Frame", frame);
 
-		// Press  ESC on keyboard to exit
+		// the waitkey function is waiting 25ms for a keypress, if pressed it stores the character otherwise it passes a -1
 		char c = (char)waitKey(25);
+		// if the esc key is pressed
 		if (c == 27)
+		{
+			// escape while loop
 			break;
+		}
+
 	}
 
-	// When everything done, release the video capture object
+	// release video capture object 
 	cap.release();
 
-	// Closes all the frames
+	// destroy all frames from memory
 	destroyAllWindows();
 
+	// end main
 	return 0;
 }
 
